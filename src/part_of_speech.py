@@ -1,3 +1,6 @@
+from copy import deepcopy
+
+
 class UkrainianLanguageRepository(dict):
     def __init__(self):
         super().__init__()
@@ -39,29 +42,38 @@ class UkrainianLanguageRepository(dict):
     def update(self, E=None, **F):  # known special case of dict.update
         if hasattr(E, "keys"):
             for part_of_speech in E.keys():
+                self.__assign_if_key_does_not_exist(self, part_of_speech)
                 if hasattr(E[part_of_speech], "keys"):
-                    for category in E[part_of_speech].keys():
-                        for property in E[part_of_speech][category]:
-                            self.__initialize_if_key_not_exist(self, part_of_speech)
-                            self.__initialize_empty_dict_if_key_not_exist(self[part_of_speech], category)
-                            if property not in self[part_of_speech][category]:
-                                # new property "чоловічий
-                                self[part_of_speech][category][property] = E[part_of_speech][category][property]
-                            else:
-                                # append to existing property
-                                self[part_of_speech][category][property] = self[part_of_speech][category][property] \
-                                                                           + E[part_of_speech][category][property]
+                    self.__update_each_category(self[part_of_speech], E[part_of_speech])
                 else:
                     raise TypeError("Expected to get dictionary with category properties as keys, but got {}"
                                     .format(type(E[part_of_speech])))
         else:
             raise NotImplementedError
 
-    def __initialize_if_key_not_exist(self, dictionary_ref, key, default_value=None):
+    def __update_each_category(self, dictionary_set_by_reference, second_lvl_dict):
+        for category in second_lvl_dict.keys():
+            self.dictionary_slice_reference = dictionary_set_by_reference
+            self.__assign_if_key_does_not_exist(dictionary_set_by_reference, category)
+            del self.dictionary_slice_reference
+            self.__update_each_property(dictionary_set_by_reference[category], second_lvl_dict[category])
+
+    def __update_each_property(self, dict_reference, in_dictionary):
+        for property in in_dictionary:
+            self.dictionary_slice_reference = dict_reference
+            self.__push_back_words_to_property(dict_reference, property, in_dictionary[property])
+            del self.dictionary_slice_reference
+
+    def __push_back_words_to_property(self, dict_reference, property_key, new_words):
+        self.__assign_if_key_does_not_exist(dict_reference, property_key, default_value=tuple())
+        self.dictionary_slice_reference[property_key] = self.dictionary_slice_reference[property_key] + new_words
+
+    def __assign_if_key_does_not_exist(self, dict_ref, key, default_value=None):
         if default_value is None:
             default_value = dict()
-        if key not in dictionary_ref:
-            dictionary_ref[key] = dict()
+        if key not in dict_ref:
+            dict_ref[key] = default_value
+
 
     def characterize(self, input_word):
         for part_of_speech, categories_of_properties in self.items():

@@ -1,9 +1,9 @@
 from part_of_speech import UkrainianLanguageRepository
 import pytest
 
+p = UkrainianLanguageRepository()
 
-def test_default_dictionary():
-    p = UkrainianLanguageRepository()
+def test_000_characterize_noun():
     #assert dict() == p
     result = p.characterize("хлопець")
     # assert ('іменник' in result)
@@ -11,15 +11,11 @@ def test_default_dictionary():
 
     result = p.characterize('дівчина')
     assert result == {'іменник': {'рід': 'жіночий', 'число': 'однина'}}
+
+
+def test_001_characterize_numbers():
     result = p.characterize("п'ять")
     assert result == {'числівник': {'за значенням': 'кількісний'}}
-    # p.what_can_we_say("хлопець")
-    # "іменник" -> example of nouns
-    # "число" -> example of singular and plural words
-    # "жіночий" -> example of words
-    # append new words
-    # edit words?
-    # throw exception if word is not found
 
 
 def test_property_example():
@@ -38,6 +34,10 @@ def test_property_example():
 def test_extend_with_new_words():
     use_cases = UkrainianLanguageRepository()
     assert use_cases.characterize("веселий") is None
+    
+
+def test_extend_should_fail():
+    use_cases = UkrainianLanguageRepository()
     with pytest.raises(TypeError):
         use_cases.update({"прикметник": {"рід": ("чоловічий")}})
 
