@@ -1,6 +1,6 @@
-from part_of_speech import PartOfSpeech
+from part_of_speech import UkrainianLanguageRepository
 
-ua_lang = PartOfSpeech()
+ua_lang = UkrainianLanguageRepository()
 
 
 class PartOfSpeechPresenter:
