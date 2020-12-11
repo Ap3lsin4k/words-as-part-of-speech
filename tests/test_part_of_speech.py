@@ -39,7 +39,11 @@ def test_extend_with_new_words():
 def test_extend_should_fail():
     use_cases = UkrainianLanguageRepository()
     with pytest.raises(TypeError):
-        use_cases.update({"прикметник": {"рід": ("чоловічий")}})
+        use_cases.update({"прикметник": {"рід": ("чоловічий",)}})
 
+def test_002_extend_should_fail():
+    use_cases = UkrainianLanguageRepository()
+    with pytest.raises(TypeError):
+        use_cases.update({"прикметник": ("рід",)})
 
 
