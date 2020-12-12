@@ -1,7 +1,7 @@
 from language_extend_behaviour import LanguageExtendBehaviour
 
 
-class DictionaryEntity(LanguageExtendBehaviour):
+class LanguageEntity(LanguageExtendBehaviour):
 
     def __init__(self, nested_dictionary):
         super().__init__()

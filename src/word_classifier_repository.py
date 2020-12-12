@@ -1,11 +1,11 @@
 from bookmark_entity import Bookmark
-from dictionary_entity import DictionaryEntity
+from language_entity import LanguageEntity
 from dictionary_surfer_common import DictionarySurferRepository
 
 
 class WordClassifierRepository(DictionarySurferRepository):
 
-    def __init__(self, dictionary_entity: DictionaryEntity):
+    def __init__(self, dictionary_entity: LanguageEntity):
         super().__init__(dictionary_entity)
 
     def make_response_model(self, part_of_speech, input_word):

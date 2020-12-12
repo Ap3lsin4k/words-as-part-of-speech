@@ -1,9 +1,9 @@
-from dictionary_entity import DictionaryEntity
+from language_entity import LanguageEntity
 
 
 class DictionarySurferRepository:
 
-    def __init__(self, dictionary_entity: DictionaryEntity):
+    def __init__(self, dictionary_entity: LanguageEntity):
         self.dictionary = dictionary_entity
         self.result = None
 

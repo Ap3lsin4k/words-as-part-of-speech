@@ -32,30 +32,59 @@ ua_lang = UkrainianLanguageInteractor({
 
 
 class PartOfSpeechPresenter:
+    error_message = str()
 
-    def show_properties(self, result):
-        print('частина мови: {};'.format(tuple(result.keys())[0]))
+    def print_properties(self, result):
+        print('частина мови — {};'.format(tuple(result.keys())[0]))
 
         for category_of_property in result.values():
             for property, property_name in category_of_property.items():
-                print('{:>15}: {};'.format(property, property_name))
+                print('{:>10} — {};'.format(property, property_name))
 
+    def print_words_as_examples(self, response):
+
+        print("\t\t".join(response))
+
+    def print_error(self):
+        print(self.error_message)
+        self.error_message = ""
 
 presenter = PartOfSpeechPresenter()
+
+class Controller:
+
+    def execute(self):
+        #command = input()
+        try:
+            presenter.print_properties(ua_lang.classify("чоловічий"))
+        except (KeyError, ValueError) as msg:
+            presenter.error_message += str(msg)
+            try:
+
+                presenter.print_words_as_examples(ua_lang.get_examples("чоловічий"))
+            except (KeyError, ValueError) as msg:
+                presenter.error_message += str(msg)
+                presenter.print_error()
+                #print("".format(msg))
+
+c = Controller()
+while True:
+    c.execute()
+    input("__")
 #presenter.show_properties(ua_lang.characterize("хлопець"))
 
-while True:
-    command = input("Слово (або команда): ")
-    if command == 'new':
-        print(
-            '"зелений прикметник рід чоловічий" додасть слово "зелений" до частини мови прекметник, та з родом чоловічий')
-        l = input().split()
+#while True:
+#    command = input("Слово (або команда): ")
+#    if command == 'new':
+#        print(
+#            '"зелений прикметник рід чоловічий" додасть слово "зелений" до частини мови прекметник, та з родом чоловічий')
+#        l = input().split()#
 
-        ua_lang.update({l[1]: {l[2]: {l[3]: (l[0],)}}})
+#        ua_lang.update({l[1]: {l[2]: {l[3]: (l[0],)}}})
 
-    res = ua_lang.get_examples(command)
-    if (res) == None:
-        res = ua_lang.classify(command)
+#    res = ua_lang.get_examples(command)
+#    if (res) == None:
+#        res = ua_lang.classify(command)
 
-    print(
-        "Помилка: не вдалося знайти {} в словнику. Введіть new, якщо бажаєте додати слово до словника".format(command))
+ #   print(
+ #       "Помилка: не вдалося знайти {} в словнику. Введіть new, якщо бажаєте додати слово до словника".format(command))
