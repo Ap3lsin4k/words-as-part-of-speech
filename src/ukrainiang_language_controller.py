@@ -1,6 +1,6 @@
-from part_of_speech import UkrainianLanguageRepository
+from part_of_speech import UkrainianLanguageInteractor
 
-ua_lang = UkrainianLanguageRepository()
+ua_lang = UkrainianLanguageInteractor()
 
 
 class PartOfSpeechPresenter:

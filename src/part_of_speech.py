@@ -1,7 +1,7 @@
-from ukrainian_lanuage_repository import UkrainianLanguageExtendRepository
+from ukrainian_lanuage_repository import LanguageExtendBehaviour
 
 
-class UkrainianLanguageRepository(UkrainianLanguageExtendRepository):
+class UkrainianLanguageInteractor(LanguageExtendBehaviour):
     def __init__(self):
         super().__init__()
         self.update({
@@ -16,7 +16,12 @@ class UkrainianLanguageRepository(UkrainianLanguageExtendRepository):
                         ("життя", "почуття", "право", "місто", "місце", "прислів'я")
 
                 },
-
+                'число': {
+                    'однина':
+                        ('хлопець', "дівчина", "життя", "почуття", "право", "місто", "місце", "прислів'я", "потяг"),
+                    'множина':
+                        ("потяги", "двері", "штани", "ножиці")
+                }
             },
             'числівник': {
                 'за значенням': {
@@ -26,7 +31,6 @@ class UkrainianLanguageRepository(UkrainianLanguageExtendRepository):
                         ("четвертий", "сьомий", "десятий", "сто двадцять перший")
                 }
             }
-
         })
 
     # like in Linux do suggestions if command is wrong
@@ -95,6 +99,7 @@ class UkrainianLanguageRepository(UkrainianLanguageExtendRepository):
         if property_name in properties:
             self.result = properties[property_name]
 
+    # BOOKMARK
     class Bookmark:
         def __init__(self, part_of_speech=None, category_name=None, property_name=None):
             self.__part_of_speech = part_of_speech
