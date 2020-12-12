@@ -8,3 +8,4 @@ class PartOfSpeechPresenter:
     def show_properties(self, param, param1):
         self.view.print("хлопець")
         pass
+

@@ -55,3 +55,5 @@ class LanguageExtendBehaviour(dict):
 
         if key not in dict_ref:
             dict_ref[key] = default_value
+
+# TODO ability to save information to file and clean it. It is not a business logic but a detail, so de we really need it? not now

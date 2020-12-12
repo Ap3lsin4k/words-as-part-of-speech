@@ -1,4 +1,4 @@
-from part_of_speech import UkrainianLanguageInteractor
+from ukrainian_language_interactor import UkrainianLanguageInteractor
 
 ua_lang = UkrainianLanguageInteractor()
 
@@ -25,7 +25,7 @@ while True:
 
         ua_lang.update({l[1]: {l[2]: {l[3]: (l[0],)}}})
 
-    res = ua_lang.give_examples(command)
+    res = ua_lang.get_examples(command)
     if (res) == None:
         res = ua_lang.classify(command)
 

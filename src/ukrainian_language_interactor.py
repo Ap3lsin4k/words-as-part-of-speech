@@ -2,43 +2,15 @@ from ukrainian_lanuage_repository import LanguageExtendBehaviour
 
 
 class UkrainianLanguageInteractor(LanguageExtendBehaviour):
-    def __init__(self):
+    def __init__(self, nested_dictionary):
         super().__init__()
-        self.update({
-            'іменник': {
-                'рід': {
-                    'чоловічий':
-                        ('хлопець', "потяг")
-                    ,
-                    'жіночий':
-                        ('дівчина',),
-                    'середній':
-                        ("життя", "почуття", "право", "місто", "місце", "прислів'я")
-
-                },
-                'число': {
-                    'однина':
-                        ('хлопець', "дівчина", "життя", "почуття", "право", "місто", "місце", "прислів'я", "потяг"),
-                    'множина':
-                        ("потяги", "двері", "штани", "ножиці")
-                }
-            },
-            'числівник': {
-                'за значенням': {
-                    "кількісний":
-                        ("п'ять", "двісті двадцять", "шість", "тридцять три", "сорок вісім"),
-                    "порядковий":
-                        ("четвертий", "сьомий", "десятий", "сто двадцять перший")
-                }
-            }
-        })
+        self.update(nested_dictionary)
 
     # like in Linux do suggestions if command is wrong
     # def __getattribute__(self, attribute):
     # hasattr(self, attribute)
-    # pass
     def find(self, command):
-        res = self.give_examples(command)
+        res = self.get_examples(command)
         if len(res) == 0:
             res = self.classify(command)
 
@@ -88,7 +60,7 @@ class UkrainianLanguageInteractor(LanguageExtendBehaviour):
         self.result[bookmark.get_part_of_speech()].update({bookmark.category_name: bookmark.property_name})
     # SHOW EXAMPLES OF WORDS FOR GIVEN PROPERTY, SHOW CLASS OF WORDS WITH SAME PROPERTY
 
-    def give_examples(self, property_name):
+    def get_examples(self, property_name):
         self.__for_each_part_of_speech(self.__find_words_in_category_of_properties, property_name)
         return self.result
 
@@ -121,3 +93,12 @@ class UkrainianLanguageInteractor(LanguageExtendBehaviour):
 
     def get_words_for_property(self, bookmark):
         return self[bookmark.get_part_of_speech()][bookmark.category_name][bookmark.property_name]
+
+    def modify(self, bookmark, old_word, new_word):
+        modifiable = list(self.get_words_for_property(bookmark))
+        index = modifiable.index(old_word)
+        modifiable[index] = new_word
+        self[bookmark.get_part_of_speech()][bookmark.category_name][bookmark.property_name] = tuple(modifiable)
+
+
+
