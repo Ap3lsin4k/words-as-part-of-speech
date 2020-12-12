@@ -27,7 +27,7 @@ while True:
 
     res = ua_lang.give_examples(command)
     if (res) == None:
-        res = ua_lang.characterize(command)
+        res = ua_lang.classify(command)
 
     print(
         "Помилка: не вдалося знайти {} в словнику. Введіть new, якщо бажаєте додати слово до словника".format(command))
