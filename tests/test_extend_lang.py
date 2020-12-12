@@ -1,5 +1,5 @@
 from bookmark_entity import Bookmark
-from ukrainian_language_interactor import UkrainianLanguageInteractor
+from language_interactor import UkrainianLanguageInteractor
 import pytest
 
 

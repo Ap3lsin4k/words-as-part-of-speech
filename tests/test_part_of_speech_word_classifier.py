@@ -1,4 +1,4 @@
-from ukrainian_language_interactor import UkrainianLanguageInteractor
+from language_interactor import UkrainianLanguageInteractor
 import pytest
 
 ua = UkrainianLanguageInteractor({

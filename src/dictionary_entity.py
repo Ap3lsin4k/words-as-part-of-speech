@@ -1,4 +1,4 @@
-from ukrainian_lanuage_repository import LanguageExtendBehaviour
+from language_extend_behaviour import LanguageExtendBehaviour
 
 
 class DictionaryEntity(LanguageExtendBehaviour):

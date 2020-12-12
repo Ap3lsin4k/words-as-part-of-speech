@@ -11,4 +11,3 @@ def test_construction_and_view_initialization():
     
     p.show_properties("рід", "чоловічий")
     assert viewmock.get() == "хлопець"
-    # будинок
