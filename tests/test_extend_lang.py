@@ -1,3 +1,4 @@
+from bookmark_entity import Bookmark
 from ukrainian_language_interactor import UkrainianLanguageInteractor
 import pytest
 
@@ -5,13 +6,13 @@ import pytest
 @pytest.fixture
 def use_cases() -> UkrainianLanguageInteractor:
     return UkrainianLanguageInteractor({
-            'іменник': {
-                'рід': {
-                    'середній':
-                        ("почуття",)
-                },
+        'іменник': {
+            'рід': {
+                'середній':
+                    ("почуття",)
             },
-        })
+        },
+    })
 
 
 def test_extend_with_new_words(use_cases):
@@ -97,11 +98,11 @@ def test_update_should_not_clean_dict(use_cases):
 
 def test_should_fail_edit_if_key_does_not_exist():
     interactor = UkrainianLanguageInteractor({'noun': {'grammatical number': {'plural': ("travellers",)}}})
-    bm = interactor.Bookmark('noun', 'grammaticalnumber', 'plural')
+    bm = Bookmark('noun', 'grammaticalnumber', 'plural')
     with pytest.raises(KeyError):
         interactor.modify(bm, 'travellers', 'travelers')
 
-    bm = interactor.Bookmark('noun', 'grammatical number', 'plural')
+    bm = Bookmark('noun', 'grammatical number', 'plural')
     with pytest.raises(ValueError):
         interactor.modify(bm, 'doed', 'did')
 
@@ -112,7 +113,7 @@ def test_edit_newly_added_word_in_tuple():
     result_before_update = interactor.get_examples("plural")
     assert result_before_update == ('travellers',)
 
-    bm = interactor.Bookmark('noun', 'grammatical number', 'plural')
+    bm = Bookmark('noun', 'grammatical number', 'plural')
     interactor.modify(bm, 'travellers', 'travelers')
     result = interactor.get_examples("plural")
     assert result == ('travelers',)
@@ -121,11 +122,8 @@ def test_edit_newly_added_word_in_tuple():
     result_before_modification = interactor.get_examples("past")
     assert result_before_modification == ("doed",)
 
-
-    interactor.modify(interactor.Bookmark('verb', 'tense', 'past'),
+    interactor.modify(Bookmark('verb', 'tense', 'past'),
                       'doed', 'did')
 
     result = interactor.get_examples('past')
     assert result == ('did',)
-
-
