@@ -36,13 +36,3 @@ def test_property_example():
 
     examples = ua.get_examples('однина')[0]
     assert len(examples) > 6
-
-
-@pytest.mark.skip("Not implemented")
-def test_property():
-    examples = ua.get_examples('')
-
-    pass
-
-# todo show that a property is present in noun and adjective
-# todo ability to enter part of speech and then property

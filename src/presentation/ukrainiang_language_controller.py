@@ -1,5 +1,6 @@
 from bookmark_entity import Bookmark
 from language_interactor import UkrainianLanguageInteractor
+from presentation.ua_lang_presenter import UkrainianLanguagePresenter
 
 ua_lang = UkrainianLanguageInteractor({
     'іменник': {
@@ -98,31 +99,7 @@ ua_lang = UkrainianLanguageInteractor({
         },
     }
 })
-
-
-class PartOfSpeechPresenter:
-    error_messages = []
-
-    def print_properties(self, result):
-        print('Частина мови — {};'.format(tuple(result.keys())[0]))
-
-        for category_of_property in result.values():
-            for property, property_name in category_of_property.items():
-                print('{:>10} — {};'.format(property, property_name))
-
-    def print_words_as_examples(self, words, bookmark):
-        print('Частина мови — {};'.format(bookmark.get_part_of_speech()))
-
-        print('Слова, що відповідають характеристиці {} — {}:'.format(bookmark.category_name, bookmark.property_name))
-        print("\t\t".join(words))
-
-    def print_error(self):
-        for msg in self.error_messages:
-            print(msg)
-        self.error_messages.clear()
-
-
-presenter = PartOfSpeechPresenter()
+presenter = UkrainianLanguagePresenter()
 
 
 class Controller:
@@ -143,8 +120,8 @@ class Controller:
     def __print_manual(self):
         print("Введіть слово, щоб подивитися характеристику.")
         print("При введені характеристики, програма виведе приклад слів.")
-        print("Ключове слово \"new\" без лапок, щоб додати нові слова у словник")
-        print("Ключове слово \"edit\" без лапок, щоб відредагувати існуюче слово нові слова у словник")
+        print("Ключове слово \"new\" без лапок, щоб додати нові слова у словник.")
+        print("Ключове слово \"edit\" без лапок, щоб відредагувати існуюче слово нові слова у словник.")
 
     def __make_request(self, command):
         try:
@@ -171,7 +148,7 @@ class Controller:
               .format(words, part_of_speech, category_name, property_name))
         command = input("Підтвердити(так/ні): ")
         if command.lower() in ("так", "т", "y", "yes"):
-            inp = {part_of_speech: {category_name:  {property_name: tuple(words.split())}}}
+            inp = {part_of_speech: {category_name: {property_name: tuple(words.split())}}}
             ua_lang.update(inp)
         else:
             print("Слово(а) не були додані до словника", words)
@@ -190,28 +167,4 @@ class Controller:
         else:
             print("Скасовано")
 
-c = Controller()
-print('Введіть "help", щоб подивитися більше інформації')
-while True:
-    c.execute()
 
-# додавати нові слова
-# presenter.show_properties(ua_lang.characterize("хлопець"))
-
-# while True:
-#    command = input("Слово (або команда): ")
-#    if command == 'new':
-#        print(
-#            '"зелений прикметник рід чоловічий" додасть слово "зелений" до частини мови прекметник, та з родом чоловічий')
-#        l = input().split()#
-
-#        ua_lang.update({l[1]: {l[2]: {l[3]: (l[0],)}}})
-
-#    res = ua_lang.get_examples(command)
-#    if (res) == None:
-#        res = ua_lang.classify(command)
-
-#   print(
-#       "Помилка: не вдалося знайти {} в словнику. Введіть new, якщо бажаєте додати слово до словника".format(command))№
-# TODO word wrap
-# TODO input nw

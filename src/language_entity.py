@@ -1,4 +1,4 @@
-from language_extend_behaviour import LanguageExtendBehaviour
+from repositories.language_extend_behaviour import LanguageExtendBehaviour
 
 
 class LanguageEntity(LanguageExtendBehaviour):

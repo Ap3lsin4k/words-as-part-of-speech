@@ -1,6 +1,6 @@
 from bookmark_entity import Bookmark
 from language_entity import LanguageEntity
-from dictionary_surfer_common import DictionarySurferRepository
+from repositories.dictionary_surfer_common import DictionarySurferRepository
 
 
 class WordClassifierRepository(DictionarySurferRepository):
