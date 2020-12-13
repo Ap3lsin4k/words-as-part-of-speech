@@ -79,7 +79,7 @@ def test_show_property_when_extended(use_cases):
     with pytest.raises(KeyError):
         result_none = use_cases.get_examples("минулий")
     use_cases.update({"дієслово": {"час": {"минулий": ("думав",)}}})
-    result = use_cases.get_examples("минулий")
+    result = use_cases.get_examples("минулий")[0]
     assert len(result) == 1
     assert result[0] == "думав"
 
@@ -110,20 +110,20 @@ def test_should_fail_edit_if_key_does_not_exist():
 # advanced modification
 def test_edit_newly_added_word_in_tuple():
     interactor = UkrainianLanguageInteractor({'noun': {'grammatical number': {'plural': ("travellers",)}}})
-    result_before_update = interactor.get_examples("plural")
+    result_before_update = interactor.get_examples("plural")[0]
     assert result_before_update == ('travellers',)
 
     bm = Bookmark('noun', 'grammatical number', 'plural')
     interactor.modify(bm, 'travellers', 'travelers')
-    result = interactor.get_examples("plural")
+    result = interactor.get_examples("plural")[0]
     assert result == ('travelers',)
 
     interactor.update({'verb': {'tense': {'past': ("doed",)}}})
-    result_before_modification = interactor.get_examples("past")
+    result_before_modification = interactor.get_examples("past")[0]
     assert result_before_modification == ("doed",)
 
     interactor.modify(Bookmark('verb', 'tense', 'past'),
                       'doed', 'did')
 
-    result = interactor.get_examples('past')
+    result = interactor.get_examples('past')[0]
     assert result == ('did',)

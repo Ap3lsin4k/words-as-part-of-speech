@@ -35,15 +35,17 @@ class PartOfSpeechPresenter:
     error_message = str()
 
     def print_properties(self, result):
-        print('частина мови — {};'.format(tuple(result.keys())[0]))
+        print('Частина мови — {};'.format(tuple(result.keys())[0]))
 
         for category_of_property in result.values():
             for property, property_name in category_of_property.items():
                 print('{:>10} — {};'.format(property, property_name))
 
-    def print_words_as_examples(self, response):
+    def print_words_as_examples(self, words, bookmark):
+        print('Частина мови — {};'.format(bookmark.get_part_of_speech()))
 
-        print("\t\t".join(response))
+        print('Слова, що відповідають характеристиці {} — {}:'.format(bookmark.category_name, bookmark.property_name))
+        print("\t\t".join(words))
 
     def print_error(self):
         print(self.error_message)
@@ -61,7 +63,7 @@ class Controller:
             presenter.error_message += str(msg)
             try:
 
-                presenter.print_words_as_examples(ua_lang.get_examples("чоловічий"))
+                presenter.print_words_as_examples(*ua_lang.get_examples("чоловічий"))
             except (KeyError, ValueError) as msg:
                 presenter.error_message += str(msg)
                 presenter.print_error()

@@ -1,3 +1,4 @@
+from bookmark_entity import Bookmark
 from language_entity import LanguageEntity
 
 
@@ -22,4 +23,5 @@ class DictionarySurferRepository:
 
     def for_each_category_of_property(self, handle_func, part_of_speech, property_name):
         for category_of_property, properties in self.dictionary[part_of_speech].items():
-            handle_func(properties, property_name)
+            bm = Bookmark(part_of_speech, category_of_property, property_name)
+            handle_func(bm, property_name)

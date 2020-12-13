@@ -1,3 +1,4 @@
+from bookmark_entity import Bookmark
 from language_entity import LanguageEntity
 from word_classifier_repository import WordClassifierRepository
 from word_of_same_category_repository import WordsOfSameCategoryRepository
@@ -19,7 +20,8 @@ class UkrainianLanguageInteractor:
     # SHOW EXAMPLES OF WORDS FOR GIVEN PROPERTY, SHOW CLASS OF WORDS WITH SAME PROPERTY
     def get_examples(self, property_name):
         self.__words_same_category.for_each_part_of_speech(self.__words_same_category.find_words_in_category_of_properties, property_name)
-        return self.__words_same_category.result
+        res = [self.__words_same_category.result, self.__words_same_category.bm]
+        return res
 
     def modify(self, bookmark, old_word, new_word):
         modifiable = list(self.__dictionary.get_words_for_property(bookmark))

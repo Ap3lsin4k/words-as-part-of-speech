@@ -25,13 +25,16 @@ ua = UkrainianLanguageInteractor({
 
 
 def test_property_example():
-    examples = ua.get_examples("середній")
+    examples, bm = ua.get_examples("середній")
 
     assert examples[0] == 'життя'
     assert examples[1] == 'почуття'
     assert examples[2] == 'право'
+    assert bm.get_part_of_speech() == 'іменник'
+    assert bm.category_name == 'рід'
+    assert bm.property_name == 'середній'
 
-    examples = ua.get_examples('однина')
+    examples = ua.get_examples('однина')[0]
     assert len(examples) > 6
 
 
