@@ -1,3 +1,4 @@
+from bookmark_entity import Bookmark
 from language_interactor import UkrainianLanguageInteractor
 
 ua_lang = UkrainianLanguageInteractor({
@@ -29,7 +30,6 @@ ua_lang = UkrainianLanguageInteractor({
                 ("нехворощ", "любов", "мати"),
             'четверта':
                 ("ягня",)
-
         }
     },
     'числівник': {
@@ -53,7 +53,7 @@ ua_lang = UkrainianLanguageInteractor({
             "присвійні":
                 ("мій", "твій", "наш", "ваш", "його", "її", "їхній", "свій"),
             "вказівні":
-                ("цей", "оцей", "сей", "той", "стільки", "такий", "отакий"),
+                ("оцей", "сей", "той", "стільки", "такий", "отакий"),
             "означальні": ("весь", "всякий", "сам", "кожний", "самий", "інший"),
             "неозначені": ("абихто", "абищо", "будь-який", "скільки-небудь"),
             "заперечні": ("ніщо", "ніякий", "нічий", "аніхто", "аніщо", "аніякий")
@@ -101,7 +101,7 @@ ua_lang = UkrainianLanguageInteractor({
 
 
 class PartOfSpeechPresenter:
-    error_message = str()
+    error_messages = []
 
     def print_properties(self, result):
         print('Частина мови — {};'.format(tuple(result.keys())[0]))
@@ -117,8 +117,9 @@ class PartOfSpeechPresenter:
         print("\t\t".join(words))
 
     def print_error(self):
-        print(self.error_message)
-        self.error_message = ""
+        for msg in self.error_messages:
+            print(msg)
+        self.error_messages.clear()
 
 
 presenter = PartOfSpeechPresenter()
@@ -127,24 +128,72 @@ presenter = PartOfSpeechPresenter()
 class Controller:
 
     def execute(self):
-        command = input()
+        command = input("> ")
+        if command == 'help' or command == '"help"' or command == 'help()':
+            self.__print_manual()
+        elif 'new' in command:
+            self.extend_dictionary()
+            return
+        elif 'edit' in command:
+            self.edit_dictionary()
+        else:
+            self.__make_request(command)
+        print()
+
+    def __print_manual(self):
+        print("Введіть слово, щоб подивитися характеристику.")
+        print("При введені характеристики, програма виведе приклад слів.")
+        print("Ключове слово \"new\" без лапок, щоб додати нові слова у словник")
+        print("Ключове слово \"edit\" без лапок, щоб відредагувати існуюче слово нові слова у словник")
+
+    def __make_request(self, command):
         try:
             presenter.print_properties(ua_lang.classify(command))
         except (KeyError, ValueError) as msg:
-            presenter.error_message += str(msg)
+            presenter.error_messages.append(str(msg))
             try:
-
                 presenter.print_words_as_examples(*ua_lang.get_examples(command))
+                presenter.error_messages.clear()
             except (KeyError, ValueError) as msg:
-                presenter.error_message += str(msg)
+                if str(msg) not in presenter.error_messages:
+                    presenter.error_messages.append(str(msg))
                 presenter.print_error()
-                # print("".format(msg))
 
+    def extend_dictionary(self):
+        part_of_speech = input('Введіть частину мови[прикметник]: ')
+        category_name = input('Введіть за чим класифікувати слово[число]: ')
+        property_name = input('Введіть до якої характеристики належить[множина]: ')
+
+        print("Введіть слова розділені пробілом[зелена золотиста промениста неймовірна]")
+        words = input(">>> ")
+
+        print("Слова '{}' будуть додані до словника, частина мови — '{}', {} — {}."
+              .format(words, part_of_speech, category_name, property_name))
+        command = input("Підтвердити(так/ні): ")
+        if command.lower() in ("так", "т", "y", "yes"):
+            inp = {part_of_speech: {category_name:  {property_name: tuple(words.split())}}}
+            ua_lang.update(inp)
+        else:
+            print("Слово(а) не були додані до словника", words)
+
+    def edit_dictionary(self):
+        part_of_speech = input('Введіть частину мови[числівник]: ')
+        category_name = input('Введіть за чим класифікувати слово[за значенням]: ')
+        property_name = input('Введіть до якої характеристики належить[кількісний]: ')
+        old_word = input("Введіть поточне слово[єдин]: ")
+        new_word = input("Введіть нове слово[один]: ")
+        print("Замінити слово '{}' на '{}'.".format(old_word, new_word))
+        command = input("Підтвердити(так/ні): ")
+        if command.lower() in ("так", "т", "y", "yes"):
+            bm = Bookmark(part_of_speech, category_name, property_name)
+            ua_lang.modify(bm, old_word, new_word)
+        else:
+            print("Скасовано")
 
 c = Controller()
+print('Введіть "help", щоб подивитися більше інформації')
 while True:
     c.execute()
-    #input("__")
 
 # додавати нові слова
 # presenter.show_properties(ua_lang.characterize("хлопець"))
@@ -165,3 +214,4 @@ while True:
 #   print(
 #       "Помилка: не вдалося знайти {} в словнику. Введіть new, якщо бажаєте додати слово до словника".format(command))№
 # TODO word wrap
+# TODO input nw
