@@ -1,3 +1,4 @@
+# bookmark_entity.py
 class Bookmark:
     def __init__(self, part_of_speech=None, category_name=None, property_name=None):
         self.__part_of_speech = part_of_speech

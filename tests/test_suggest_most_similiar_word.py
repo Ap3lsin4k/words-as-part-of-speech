@@ -27,14 +27,14 @@ def use_cases() -> UkrainianLanguageInteractor:
 
 
 def test_should_suggest_the_word_itself_when_perfect_match(use_cases):
-    result = use_cases.get_close_matches('іменник')
+    result = use_cases.construct_close_matches('іменник')
     assert 'іменник' in result
 
 
 def test_should_suggest_if_typo_at_second_level(use_cases):
-    result = use_cases.get_close_matches('род')
+    result = use_cases.construct_close_matches('род')
     assert 'рід' in result
-    result = use_cases.get_close_matches('відмінок')
+    result = use_cases.construct_close_matches('відмінок')
     assert 'відміна' in result
 
 
@@ -48,23 +48,23 @@ def test_should_suggest_when_multiple_parts_of_speech(use_cases):
         }
     }})
 
-    result = use_cases.get_close_matches('іменик')
+    result = use_cases.construct_close_matches('іменик')
     assert 'іменник' in result
 
-    result = use_cases.get_close_matches('числівник')
+    result = use_cases.construct_close_matches('числівник')
     assert 'числівник' in result
 
-    result = use_cases.get_close_matches('кількістний')
+    result = use_cases.construct_close_matches('кількістний')
     assert 'кількісний' in result
 
 
 def test_should_suggest_multiple_words(use_cases):
-    suggested = use_cases.get_close_matches("місцо")
+    suggested = use_cases.construct_close_matches("місцо")
 
     assert 'місто' in suggested
     assert 'місце' in suggested
 
 
 def test_should_not_contain_duplicates(use_cases):
-    result = use_cases.get_close_matches("почутя")
+    result = use_cases.construct_close_matches("почутя")
     assert 'почуття' in result

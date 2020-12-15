@@ -1,4 +1,5 @@
-from presentation.ukrainiang_language_controller import Controller
+#__init__.py
+from presentation.ua_lang_controller import Controller
 
 if __name__ == '__main__':
     c = Controller()

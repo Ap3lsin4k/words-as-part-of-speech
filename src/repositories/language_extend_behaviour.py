@@ -1,12 +1,4 @@
-from copy import deepcopy
-
-
 class LanguageExtendBehaviour(dict):
-
-        # like in Linux do suggestions if command is wrong
-        # def __getattribute__(self, attribute):
-        # hasattr(self, attribute)
-        # pass
 
     def update(self, E=None, **F):  # known special case of dict.update
         if hasattr(E, "keys"):
